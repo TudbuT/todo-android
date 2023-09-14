@@ -44,6 +44,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onBackPressed() {
+        onClick(cancelBtn);
+    }
+
+    @Override
     public void onClick(View view) {
         if(view == confirmBtn) {
             editing.title = titleTxt.getText().toString();
@@ -58,12 +63,14 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             Data.save();
             Toast.makeText(getApplicationContext(), editing.title.isEmpty() ? R.string.deleted : R.string.saved, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, MainActivity.class));
+            finish();
             return;
         }
         if(view == cancelBtn) {
             if(!editing.title.equals(titleTxt.getText().toString()) || !editing.description.equals(descriptionTxt.getText().toString()))
                 Toast.makeText(getApplicationContext(), R.string.discarded, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, MainActivity.class));
+            finish();
             return;
         }
         if(view == deleteTitleBtn) {

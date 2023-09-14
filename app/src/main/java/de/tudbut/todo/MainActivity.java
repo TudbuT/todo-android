@@ -70,10 +70,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onBackPressed() {
+        this.finish();
+    }
+
+    @Override
     public void onClick(View view) {
         if (view == createBtn) {
             EditActivity.editType = EditActivity.Type.CREATE;
             startActivity(new Intent(this, EditActivity.class));
+            finish();
             return;
         }
         if (view == reloadBtn) {
@@ -86,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 EditActivity.editType = EditActivity.Type.EDIT;
                 EditActivity.editIndex = idx;
                 startActivity(new Intent(this, EditActivity.class));
+                finish();
                 return;
             }
         }
