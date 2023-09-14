@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ToDo</string>
+    <string name="title">Title</string>
+    <string name="create">Create</string>
+    <string name="description">Description</string>
+    <string name="saved">Saved.</string>
+    <string name="cancel">Cancel</string>
+    <string name="reload">Reload</string>
+    <string name="discarded">Discarded.</string>
+    <string name="deleted">Deleted.</string>
+    <string name="X">ⓧ</string>
+    <string name="confirm">Confirm</string>
+</resources>
