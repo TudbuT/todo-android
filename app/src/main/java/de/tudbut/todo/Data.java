@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -17,9 +18,11 @@ public class Data {
     }
 
     private static String currentListName = "main";
+
     public static String getListName() {
         return currentListName;
     }
+
     public static void setList(String name) {
         currentListName = name;
         list = null;
@@ -28,20 +31,14 @@ public class Data {
     private static ToDoList list;
 
     public static ToDoList getList() {
-        if(list == null) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        if (list == null) {
             try {
-                FileInputStream reader = new FileInputStream(path + "/" + currentListName + ".todo");
-                byte[] buf = new byte[1024];
-                int r;
-                while ((r = reader.read(buf)) != -1) {
-                    baos.write(buf, 0, r);
-                }
-                reader.close();
+                InputStream stream = new FileInputStream(path + "/" + currentListName + ".todo");
+                list = readList(stream);
+                stream.close();
             } catch (IOException e) {
-                return list = new ToDoList();
+                list = new ToDoList();
             }
-            list = ToDoList.fromString(new String(baos.toByteArray()));
         }
         return list;
     }
@@ -54,5 +51,15 @@ public class Data {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static ToDoList readList(InputStream stream) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        int r;
+        while ((r = stream.read(buf)) != -1) {
+            baos.write(buf, 0, r);
+        }
+        return ToDoList.fromString(baos.toString());
     }
 }

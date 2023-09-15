@@ -11,4 +11,6 @@
     <string name="X">ⓧ</string>
     <string name="confirm">Confirm</string>
     <string name="enter_list_name">Enter list name</string>
+    <string name="export">Export</string>
+    <string name="clear">Delete</string>
 </resources>
