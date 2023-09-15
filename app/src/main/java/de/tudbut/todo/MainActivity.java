@@ -175,8 +175,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
             builder.setNeutralButton(R.string.clear, (dialogInterface, i) -> {
                 Data.setList(edit.getText().toString());
-                reload();
                 Data.getList().clear();
+                reload();
                 Toast.makeText(this, "List cleared.", Toast.LENGTH_SHORT).show();
             });
             edit.setSelectAllOnFocus(true);
