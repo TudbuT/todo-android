@@ -1,25 +1,37 @@
 package de.tudbut.todo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.PopupWindowCompat;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.inputmethodservice.InputMethodService;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import kotlin.Unit;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
     ArrayList<View> fields = new ArrayList<>();
     ArrayList<CheckBox> boxes = new ArrayList<>();
@@ -41,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dividerVw = findViewById(R.id.divider);
         createBtn.setOnClickListener(this);
         reloadBtn.setOnClickListener(this);
+        reloadBtn.setOnLongClickListener(this);
 
         reload();
     }
@@ -123,5 +136,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         throw new RuntimeException("Illegal state: Button clicked, but button does not exist.");
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        if(view == reloadBtn) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setCancelable(true)
+                    .setTitle(R.string.enter_list_name);
+            EditText edit = new EditText(this);
+            edit.setText(Data.getListName());
+            edit.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            edit.selectAll();
+            builder.setView(edit);
+            builder.setPositiveButton(R.string.confirm, (dialogInterface, i) -> {
+                Data.setList(edit.getText().toString());
+                reload();
+            });
+            edit.setSelectAllOnFocus(true);
+            builder.show();
+            return true;
+        }
+        return false;
     }
 }

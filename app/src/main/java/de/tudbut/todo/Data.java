@@ -16,13 +16,22 @@ public class Data {
         Data.path = path;
     }
 
+    private static String currentListName = "main";
+    public static String getListName() {
+        return currentListName;
+    }
+    public static void setList(String name) {
+        currentListName = name;
+        list = null;
+    }
+
     private static ToDoList list;
 
     public static ToDoList getList() {
         if(list == null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
-                FileInputStream reader = new FileInputStream(path + "/main.todo");
+                FileInputStream reader = new FileInputStream(path + "/" + currentListName + ".todo");
                 byte[] buf = new byte[1024];
                 int r;
                 while ((r = reader.read(buf)) != -1) {
@@ -39,7 +48,7 @@ public class Data {
 
     public static void save() {
         try {
-            FileOutputStream writer = new FileOutputStream(path + "/main.todo");
+            FileOutputStream writer = new FileOutputStream(path + "/" + currentListName + ".todo");
             writer.write(list.intoString().getBytes());
             writer.close();
         } catch (IOException e) {
